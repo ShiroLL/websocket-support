@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.hllcloud.platform.supports.websocket.config.BusinessAopConfig,\
+top.hllcloud.platform.supports.websocket.config.WebSocketRegisterConfigurer,\
+top.hllcloud.platform.supports.websocket.config.WebSocketConfig,\
+top.hllcloud.platform.supports.websocket.config.DefaultHandshakeInterceptor,\
+top.hllcloud.platform.supports.websocket.listener.ActionCollectListener,\
+top.hllcloud.platform.supports.websocket.dispatcher.ActionDispatcher
