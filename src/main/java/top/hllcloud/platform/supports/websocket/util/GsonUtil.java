@@ -2,8 +2,9 @@ package top.hllcloud.platform.supports.websocket.util;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.*;
+import lombok.SneakyThrows;
 import org.springframework.web.socket.WebSocketSession;
-import top.hllcloud.platform.supports.websocket.enums.WebsocketChannelStatus;
+import top.hllcloud.platform.supports.websocket.basic.ChannelStatus;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -20,7 +21,7 @@ public class GsonUtil {
             .registerTypeAdapter(Date.class, new DateAdapter())
             .registerTypeAdapter(String.class, new StringAdapter())
             .registerTypeAdapter(Long.class, new NumberAdapter())
-            .registerTypeAdapter(WebsocketChannelStatus.class, new WebsocketChannelStatusAdapter())
+            .registerTypeAdapter(ChannelStatus.class, new ChannelStatusAdapter())
             // 静态属性过滤
             .excludeFieldsWithModifiers(Modifier.STATIC, Modifier.FINAL)
             // 属性过滤
@@ -148,27 +149,28 @@ public class GsonUtil {
     }
 
     /**
-     * 自定义WebsocketChannelStatus枚举转换
+     * 自定义ChannelStatus枚举转换
      */
-    private static class WebsocketChannelStatusAdapter
-            implements JsonSerializer<WebsocketChannelStatus>,
-            JsonDeserializer<WebsocketChannelStatus> {
+    private static class ChannelStatusAdapter
+            implements JsonSerializer<ChannelStatus>,
+            JsonDeserializer<ChannelStatus> {
 
+        @SneakyThrows
         @Override
-        public WebsocketChannelStatus deserialize(
+        public ChannelStatus deserialize(
                 JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
                 throws JsonParseException {
             if (((JsonPrimitive) jsonElement).isNumber()) {
-                return WebsocketChannelStatus.fromInt(jsonElement.getAsInt());
+                return ChannelStatus.fromInt(jsonElement.getAsInt());
             }
-            return WebsocketChannelStatus.fromStr(jsonElement.getAsString());
+            return ChannelStatus.fromStr(jsonElement.getAsString());
         }
 
         @Override
         public JsonElement serialize(
-                WebsocketChannelStatus websocketChannelStatus, Type type,
+                ChannelStatus channelStatus, Type type,
                 JsonSerializationContext jsonSerializationContext) {
-            return websocketChannelStatus.toJson();
+            return channelStatus.toJson();
         }
     }
 }

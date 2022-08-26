@@ -14,6 +14,6 @@
       "name": "spring.websocket.ignore-exceptions",
       "type": "java.util.List",
       "description": "默认分发器忽略的异常列表."
-    },
+    }
   ]
 }

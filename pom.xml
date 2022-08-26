@@ -6,7 +6,7 @@
 
     <artifactId>websocket-support</artifactId>
     <groupId>top.hllcloud</groupId>
-    <version>1.4</version>
+    <version>1.5</version>
     <description>websocket快速支持模块</description>
 
     <properties>
@@ -56,4 +56,17 @@
             <url>http://192.168.0.22:11113/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

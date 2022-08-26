@@ -1,6 +1,7 @@
 package top.hllcloud.platform.supports.websocket.dispatcher;
 
 import cn.hutool.core.bean.BeanUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -10,14 +11,15 @@ import org.springframework.web.socket.AbstractWebSocketMessage;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import top.hllcloud.platform.supports.websocket.config.WebSocketConfig;
 import top.hllcloud.platform.supports.websocket.entity.context.WebsocketSessionContext;
 import top.hllcloud.platform.supports.websocket.entity.request.RequestMessage;
 import top.hllcloud.platform.supports.websocket.entity.response.ResponseData;
 import top.hllcloud.platform.supports.websocket.entity.response.ResponseMessage;
-import top.hllcloud.platform.supports.websocket.util.ExceptionUtil;
 import top.hllcloud.platform.supports.websocket.util.GsonUtil;
 import top.hllcloud.platform.supports.websocket.util.WebSocketUtil;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -39,6 +41,8 @@ public class ActionDispatcher {
      * ConcurrentHashMap<url, Method>
      */
     private final Map<String, ActionWrapper> proxyActionCaches = new HashMap<>();
+    @Resource
+    private WebSocketConfig webSocketConfig;
 
     /**
      * 构造方法
@@ -100,6 +104,7 @@ public class ActionDispatcher {
      * @param message WebSocketMessage(TextMessage、BinaryMessage)
      * @throws IOException io异常
      */
+    @SneakyThrows
     public void doAction(WebSocketSession session, AbstractWebSocketMessage<?> message) {
         RequestMessage request;
         ResponseMessage response = new ResponseMessage();
@@ -138,30 +143,21 @@ public class ActionDispatcher {
 
             // 包装返回值
             response.setData(ResponseData.success(proxyWrapper.invoke(args)));
-        } catch (IllegalStateException e) {
-            // 参数转换错误
-            log.warn("请求参数错误", e);
-            response.setData(ResponseData.error(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getCause().getMessage()));
-        } catch (InvocationTargetException e) {
-            // 异常代理包装（抛出的异常未被引用）
-            // 获取原始Exception类
-            Throwable runTime = e.getTargetException();
-            if (ExceptionUtil.isBusinessException(runTime)) {
-                // 业务异常
-                response.setData(ResponseData.error(runTime.getMessage()));
-            } else {
-                // 其他异常
-                log.error("业务异常", e);
-                response.setData(ResponseData.error(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getCause().getMessage()));
-            }
         } catch (IllegalAccessException | NoSuchMethodException | HttpMediaTypeNotSupportedException e) {
             // 请求接口错误
             // 请求域错误
             // 不受支持的数据格式
             response.setData(ResponseData.error(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()));
-        } catch (Exception e) {
-            log.error("业务异常", e);
-            response.setData(ResponseData.error(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getCause().getMessage()));
+        } catch (InvocationTargetException e) {
+            // 异常代理包装（抛出的异常未被引用）
+            // 获取原始Exception类
+            Throwable runTime = e.getTargetException();
+            if (isIgnoreException(runTime)) {
+                // 业务异常
+                response.setData(ResponseData.error(runTime.getMessage()));
+            } else {
+                throw e;
+            }
         } finally {
             // 清理ThreadLocal缓存
             WebsocketSessionContext.clear();
@@ -175,6 +171,22 @@ public class ActionDispatcher {
         } catch (IOException e) {
             log.warn("数据发送失败", e);
         }
+    }
+
+    /**
+     * 判断是否为业务异常
+     *
+     * @param t
+     * @return
+     */
+    private boolean isIgnoreException(Throwable t) {
+        if (webSocketConfig.getIgnoreExceptions().size() == 0) {
+            return false;
+        }
+        String simpleName = t.getClass().getSimpleName();
+        String superName = t.getClass().getSuperclass().getSimpleName();
+        return webSocketConfig.getIgnoreExceptions().contains(simpleName)
+                | webSocketConfig.getIgnoreExceptions().contains(superName);
     }
 
 }

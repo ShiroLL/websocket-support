@@ -1,13 +1,14 @@
 package top.hllcloud.platform.supports.websocket.enums;
 
 import com.google.gson.JsonObject;
+import top.hllcloud.platform.supports.websocket.basic.ChannelStatus;
 
 /**
  * Websocket连接状态枚举
  *
  * @author hllshiro
  */
-public enum WebsocketChannelStatus {
+public enum WebsocketChannelStatus implements ChannelStatus {
     /*----------通用状态----------*/
     /**
      * 已连接、未认证
@@ -65,6 +66,7 @@ public enum WebsocketChannelStatus {
                 "\"}";
     }
 
+    @Override
     public JsonObject toJson() {
         JsonObject json = new JsonObject();
         json.addProperty("name", this.name());

@@ -7,6 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import top.hllcloud.platform.supports.websocket.enums.CodecEnum;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Websocket配置
  *
@@ -27,6 +31,11 @@ public class WebSocketConfig {
      * 编码方式
      */
     private CodecEnum codec = CodecEnum.BASE64;
+
+    /**
+     * 默认分发器异常忽略列表
+     */
+    private List<String> ignoreExceptions = new LinkedList<>();
 
     public CodecEnum getCodec() {
         return this.codec;

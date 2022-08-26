@@ -3,7 +3,7 @@ package top.hllcloud.platform.supports.websocket.entity.websocket;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
-import top.hllcloud.platform.supports.websocket.enums.WebsocketChannelStatus;
+import top.hllcloud.platform.supports.websocket.basic.ChannelStatus;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import java.io.IOException;
  *
  * @author hllshiro
  */
-public class WebsocketChannel {
+public class WebsocketChannel<T extends ChannelStatus> {
 
     /**
      * 用于发送数据的session
@@ -22,13 +22,13 @@ public class WebsocketChannel {
     /**
      * 连接状态
      */
-    private WebsocketChannelStatus status;
+    private T status;
 
     public WebsocketChannel(WebSocketSession session) {
         this.session = session;
     }
 
-    public WebsocketChannel(WebSocketSession session, WebsocketChannelStatus status) {
+    public WebsocketChannel(WebSocketSession session, T status) {
         this.session = session;
         this.status = status;
     }
@@ -37,11 +37,11 @@ public class WebsocketChannel {
         return session;
     }
 
-    public WebsocketChannelStatus getStatus() {
+    public ChannelStatus getStatus() {
         return status;
     }
 
-    public void setStatus(WebsocketChannelStatus status) {
+    public void setStatus(T status) {
         this.status = status;
     }
 
