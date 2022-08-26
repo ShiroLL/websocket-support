@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "spring.websocket.bufferSize",
+      "type": "java.lang.String",
+      "description": "缓冲区大小，需要带单位（KB/MB/GB)，默认为8KB."
+    },
+    {
+      "name": "spring.websocket.codec",
+      "type": "java.lang.String",
+      "description": "字节数据编码方式，可选值为Base32/Base62/Base64，默认为Base64."
+    },
+    {
+      "name": "spring.websocket.ignore-exceptions",
+      "type": "java.util.List",
+      "description": "默认分发器忽略的异常列表."
+    },
+  ]
+}

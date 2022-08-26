@@ -49,4 +49,11 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>maven-public</id>
+            <name>maven-public</name>
+            <url>http://192.168.0.22:11113/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 </project>

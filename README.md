@@ -105,8 +105,16 @@ spring:
   websocket:
     # 缓冲区大小，需要带单位（KB/MB/GB)，默认为8KB
     buffer-size: 8KB
-    # 编解码方式，可选值为Base32/Base62/Base64，默认为Base64
+    # 字节数据编码方式，可选值为Base32/Base62/Base64，默认为Base64
     codec: Base64
+    # 默认分发器忽略的异常列表
+    ignore-exceptions:
+      - "AuthException"
+      - "LibreOfficeException"
+      - "PermissionException"
+      - "RequestMethodException"
+      - "ServiceException"
+      - "ValidationException"
 ```
 
 ### 完整示例
