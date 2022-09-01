@@ -19,43 +19,46 @@
 
 ### 参数校验说明
 
-1. 实体类属性校验规则与Controller层VO校验规则写法相同，暂时不支持group分组校验
-2. 在需要校验的方法上添加`@Validated`注解，当前类必须被spring容器通过cgLib代理
-3. 使用`@Valid`或其他`@NotNull`之类的限定注解修饰被校验参数
+Controller层以外@Validated注解不生效，因此通过切面实现了@Validated在其他接口的校验功能
+
+1. 实体类属性校验规则与Controller层VO校验规则写法相同，但不支持group分组校验(务必不要写groups，否则会导致校验失效)
+2. 嵌套校验需要在属性名上添加@Valid注解
+3. 在需要校验的方法上添加`@Validated`注解，当前类必须被spring容器通过cgLib代理
+4. 使用`@Valid`或其他`@NotNull`之类的限定注解修饰被校验方法参数
 
 ### 校验注解说明
 
-| 分类         | 限定注解                   | 说明                                                                            |
-| ------------ | -------------------------- | ------------------------------------------------------------------------------- |
-| *嵌套校验    | @Valid                     | *被此注解修饰的属性或参数，才会对其内部的属性进行校验                           |
-|              |                            |                                                                                 |
-| 空和非空检查 | @Null                      | 限制必须为null                                                                  |
-|              | @NotNull                   | 限制不能为null                                                                  |
-|              | @NotEmpty                  | 限制不能为null且不能为空(字符串长度部位0、集合大小不为0)                        |
-|              | @NotBlank                  | 限制不能为null且不能为空(去除首尾空格后长度不为0)，只能用于String类型           |
-|              |                            |                                                                                 |
-| Boolean检查  | @AssertFalse               | 限制必须为false                                                                 |
-|              | @AssertTrue                | 限制必须为true                                                                  |
-|              |                            |                                                                                 |
-| 长度检查     | @Size(max,min)             | 限制字符长度必须在min和max之间                                                  |
-|              |                            |                                                                                 |
-| 日期检查     | @Past                      | 限制必须为过去的时间                                                            |
-|              | @PastOrPresent             | 限制必须为过去的时间或现在                                                      |
-|              | @Future                    | 限制必须为未来的时间                                                            |
-|              | @FutureOrPresent           | 限制必须为未来的时间或现在                                                      |
-|              |                            |                                                                                 |
-| 数值检查     | @Max(value)                | 限制必须为一个不大于指定值的数字                                                |
-|              | @Min(value)                | 限制必须为一个不小于指定值的数字                                                |
-|              | @DecimalMax(value)         | 限制必须为一个不大于指定值的数字                                                |
-|              | @DecimalMin(value)         | 限制必须为一个不小于指定值的数字                                                |
-|              | @Digits(integer, fraction) | 限制必须为一个小数，且整数部分的位数不超过integer，小数部分的位数不超过fraction |
-|              | @Negative                  | 限制必须为负整数                                                                |
-|              | @NegativeOrZero            | 限制必须为负整数或0                                                             |
-|              | @Positive                  | 限制必须为正整数                                                                |
-|              | @PositiveOrZero            | 限制必须为正整数或0                                                             |
-|              |                            |                                                                                 |
-| 其他校验     | @Pattern                   | 限制必须符合指定的正则表达式                                                    |
-|              | @Email                     | 限制必须为email                                                                 |
+| 分类         | 限定注解                   | 说明                                                                                |
+| ------------ | -------------------------- | ----------------------------------------------------------------------------------- |
+| *嵌套校验    | @Valid                     | *被此注解修饰的属性或参数，才会对其内部的属性进行校验。一般需要配合其他注解一起使用 |
+|              |                            |                                                                                     |
+| 空和非空检查 | @Null                      | 限制必须为null                                                                      |
+|              | @NotNull                   | 限制不能为null                                                                      |
+|              | @NotEmpty                  | 限制不能为null且不能为空(字符串长度部位0、集合大小不为0)                            |
+|              | @NotBlank                  | 限制不能为null且不能为空(去除首尾空格后长度不为0)，只能用于String类型               |
+|              |                            |                                                                                     |
+| Boolean检查  | @AssertFalse               | 限制必须为false                                                                     |
+|              | @AssertTrue                | 限制必须为true                                                                      |
+|              |                            |                                                                                     |
+| 长度检查     | @Size(max,min)             | 限制字符长度必须在min和max之间                                                      |
+|              |                            |                                                                                     |
+| 日期检查     | @Past                      | 限制必须为过去的时间                                                                |
+|              | @PastOrPresent             | 限制必须为过去的时间或现在                                                          |
+|              | @Future                    | 限制必须为未来的时间                                                                |
+|              | @FutureOrPresent           | 限制必须为未来的时间或现在                                                          |
+|              |                            |                                                                                     |
+| 数值检查     | @Max(value)                | 限制必须为一个不大于指定值的数字                                                    |
+|              | @Min(value)                | 限制必须为一个不小于指定值的数字                                                    |
+|              | @DecimalMax(value)         | 限制必须为一个不大于指定值的数字                                                    |
+|              | @DecimalMin(value)         | 限制必须为一个不小于指定值的数字                                                    |
+|              | @Digits(integer, fraction) | 限制必须为一个小数，且整数部分的位数不超过integer，小数部分的位数不超过fraction     |
+|              | @Negative                  | 限制必须为负整数                                                                    |
+|              | @NegativeOrZero            | 限制必须为负整数或0                                                                 |
+|              | @Positive                  | 限制必须为正整数                                                                    |
+|              | @PositiveOrZero            | 限制必须为正整数或0                                                                 |
+|              |                            |                                                                                     |
+| 其他校验     | @Pattern                   | 限制必须符合指定的正则表达式                                                        |
+|              | @Email                     | 限制必须为email                                                                     |
 
 ### 接口说明
 

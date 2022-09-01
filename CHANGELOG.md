@@ -1,5 +1,12 @@
 #更新日志
 
+## 1.5.2 - 2022-09-01
+
+### 修改
+
+1. HibernateValidatedAop修改为ValidatedAop
+2. Validated校验返回信息优化
+
 ## 1.5.1 - 2022-08-28
 
 ### 修改

@@ -2,7 +2,7 @@ package top.hllcloud.platform.supports.websocket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.hllcloud.platform.supports.websocket.aop.HibernateValidatedAop;
+import top.hllcloud.platform.supports.websocket.aop.ValidatedAop;
 
 /**
  * 切面配置
@@ -13,7 +13,7 @@ import top.hllcloud.platform.supports.websocket.aop.HibernateValidatedAop;
 public class BusinessAopConfig {
 
     @Bean
-    public HibernateValidatedAop validatedAop() {
-        return new HibernateValidatedAop();
+    public ValidatedAop validatedAop() {
+        return new ValidatedAop();
     }
 }

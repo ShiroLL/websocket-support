@@ -73,7 +73,7 @@ public class ActionCollectListener implements CommandLineRunner {
             }
         });
         actionDispatcher.putAll(cache);
-        log.info(" >>> WebsocketEndpoint执行器缓存完成，执行器数量：{} ", cache.size());
+        log.info(" >>> ActionMapping执行器缓存完成，执行器数量：{} ", cache.size());
     }
 
     /**

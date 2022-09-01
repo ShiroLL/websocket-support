@@ -12,9 +12,8 @@ import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * token校验
@@ -23,7 +22,7 @@ import java.util.Set;
  */
 @Aspect
 @Component
-public class HibernateValidatedAop {
+public class ValidatedAop {
 
     @Resource
     private Validator validator;
@@ -45,10 +44,7 @@ public class HibernateValidatedAop {
         if (constraintViolations.size() == 0) {
             return;
         }
-        List<String> messages = new ArrayList<>();
-        for (ConstraintViolation<Object> constraintViolation : constraintViolations) {
-            messages.add(constraintViolation.getMessage());
-        }
-        throw new ValidationException(messages.toString().substring(1, messages.toString().length() - 1));
+        String err = constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()).toString();
+        throw new ValidationException(err.substring(1, err.length() - 1));
     }
 }
