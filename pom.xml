@@ -6,7 +6,7 @@
 
     <artifactId>websocket-support</artifactId>
     <groupId>top.hllcloud</groupId>
-    <version>1.5</version>
+    <version>1.5.1</version>
     <description>websocket快速支持模块</description>
 
     <properties>

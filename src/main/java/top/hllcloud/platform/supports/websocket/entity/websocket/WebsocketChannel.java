@@ -1,5 +1,6 @@
 package top.hllcloud.platform.supports.websocket.entity.websocket;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -18,6 +19,7 @@ public class WebsocketChannel<T extends ChannelStatus> {
     /**
      * 用于发送数据的session
      */
+    @JsonIgnore
     private final WebSocketSession session;
     /**
      * 连接状态
