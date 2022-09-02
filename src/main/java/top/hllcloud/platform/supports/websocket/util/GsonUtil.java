@@ -33,10 +33,7 @@ public class GsonUtil {
 
                 @Override
                 public boolean shouldSkipClass(Class<?> aClass) {
-                    if (aClass == WebSocketSession.class) {
-                        return true;
-                    }
-                    return false;
+                    return aClass == WebSocketSession.class;
                 }
             })
             .create();

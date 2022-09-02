@@ -5,7 +5,7 @@
 ### 特性
 
 1. 支持自定义握手拦截器
-2. 支持@Validated参数校验
+2. 支持接口参数校验
 3. 提供消息分发器默认实现，写法类似controller层的GetMapping （解析消息，分发，包装返回值，提供了基于Base64的字节数组传输，仅支持JSON数据且数据格式要符合RequestMessage.class定义）
 4. 可通过切面扩展接口鉴权
 
@@ -19,12 +19,11 @@
 
 ### 参数校验说明
 
-Controller层以外@Validated注解不生效，因此通过切面实现了@Validated在其他接口的校验功能
+Controller层以外@Validated注解不生效，因此通过切面实现了其他接口的校验功能
 
-1. 实体类属性校验规则与Controller层VO校验规则写法相同，但不支持group分组校验(务必不要写groups，否则会导致校验失效)
+1. 实体类属性校验规则与Controller层VO校验规则写法相同
 2. 嵌套校验需要在属性名上添加@Valid注解
-3. 在需要校验的方法上添加`@Validated`注解，当前类必须被spring容器通过cgLib代理
-4. 使用`@Valid`或其他`@NotNull`之类的限定注解修饰被校验方法参数
+3. 使用`@Valid`或其他`@NotNull`之类的限定注解修饰被校验方法参数
 
 ### 校验注解说明
 
@@ -96,10 +95,10 @@ Controller层以外@Validated注解不生效，因此通过切面实现了@Valid
 
 4. @ActionMapping注解
 
-| 方法名 | 类型    | 默认值 | 功能说明                                                  |
-| ------ | ------- | ------ | --------------------------------------------------------- |
-| value  | String  | 必填   | 注册分发器uri前缀                                         |
-| check  | boolean | true   | 是否检查连接有效性(token存活等)，此功能需要自行在切面实现 |
+| 方法名 | 类型    | 默认值 | 功能说明                                                      |
+| ------ | ------- | ------ | ------------------------------------------------------------- |
+| value  | String  | 必填   | 注册分发器uri前缀                                             |
+| check  | boolean | true   | 原本用于标记需要校验token的接口，目前此功能需要自行在切面实现 |
 
 ## application.yml配置说明
 
@@ -117,6 +116,6 @@ spring:
       - "ValidationException"
 ```
 
-### 完整示例
+### 示例程序
 
-请查看[websocket-support-example]()项目
+请参考[ websocket-support-example ](http://192.168.0.22:10000/hllshiro/websocket-support-example)项目

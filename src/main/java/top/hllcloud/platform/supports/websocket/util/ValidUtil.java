@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author hllshiro
@@ -49,11 +48,9 @@ public class ValidUtil {
                                 method,
                                 joinPoint.getArgs(),
                                 groups.toArray(new Class<?>[]{}));
-        if (constraintViolations.size() == 0) {
-            return;
-        }
         // 抛出错误信息
-        String err = constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()).toString();
-        throw new ValidationException(err.substring(1, err.length() - 1));
+        if (constraintViolations.size() > 0) {
+            throw new ValidationException(new ArrayList<>(constraintViolations).get(0).getMessage());
+        }
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import top.hllcloud.platform.supports.websocket.enums.CodecEnum;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

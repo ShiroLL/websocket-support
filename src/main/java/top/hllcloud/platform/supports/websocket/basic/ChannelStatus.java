@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 public interface ChannelStatus {
     /**
      * int转枚举，子类必须实现
+     *
      * @param aInt
      * @return
      * @throws NoSuchMethodException
@@ -21,6 +22,7 @@ public interface ChannelStatus {
 
     /**
      * str转枚举，子类必须实现
+     *
      * @param aString
      * @return
      * @throws NoSuchMethodException
