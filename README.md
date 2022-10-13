@@ -118,4 +118,4 @@ spring:
 
 ### 示例程序
 
-请参考[ websocket-support-example ](http://192.168.0.22:10000/hllshiro/websocket-support-example)项目
+请参考[ websocket-support-example ](https://github.com/ShiroLL/websocket-support-example)项目
