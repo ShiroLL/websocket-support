@@ -11,11 +11,12 @@
 
 ### 使用说明
 
-1. 引入`top.hllcloud:websocket-support`模块
-2. 继承`BaseWebSocketHandler.class`，并添加`@WebSocketHandler`注解
-3. 如果使用请求分发器，则需要注入`ActionDispatcher`，然后在`handleMessage`直接执行`ActionDispatcher.doAction`方法
-4. 新建执行器类，需要使用`@Action`注解修饰。执行方法必须为public，且使用`@ActionMapping`注解修饰
-5. 若不需要自动将数据返回客户端，请调用`WebSocketUtil.finish`方法
+1. 编译并install到本地仓库(未发布到maven)
+2. 需要的模块引入`top.hllcloud:websocket-support`依赖
+3. 继承`BaseWebSocketHandler.class`，并添加`@WebSocketHandler`注解
+4. 如果使用请求分发器，则需要注入`ActionDispatcher`，然后在`handleMessage`直接执行`ActionDispatcher.doAction`方法
+5. 新建执行器类，需要使用`@Action`注解修饰。执行方法必须为public，且使用`@ActionMapping`注解修饰
+6. 若不需要自动将数据返回客户端，请调用`WebSocketUtil.finish`方法
 
 ### 参数校验说明
 
